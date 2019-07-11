@@ -1,0 +1,8 @@
+Greeting,
+
+You just signed up for an account at {{site.name}}. Please click
+the link below to activate your account it:
+http://{{site.domain}}{%url 'registration_activate' activation_key %}
+This link is valid for {{expiration_days}}. If it wasn't you that signed up then ignore this message
+
+-The Spark Books Web Team

@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'store',
+    'registration',
+
 ]
 
 MIDDLEWARE = [
@@ -120,3 +122,21 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+#Registration
+
+ACCOUNT_ACTIVATION_DAYS = 7     # For how much account wiil last
+REGISTRATION_AUTO_LOGIN = True  # Auto LOgin Feature
+#ACCOUNT_AUTHENTICATED_REGISTRATION_REDIRECTS = False
+LOGIN_REDIRECT_URL = '/store/'
+
+#Email Settings
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST_USER = "gs070599@gmail.com"
+EMAIL_HOST_PASSWORD = "NOBakchodi"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = "SparkBookeeper.com"
