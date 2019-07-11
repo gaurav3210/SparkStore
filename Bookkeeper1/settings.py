@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'social.apps.django_app.default',
     'store',
     'registration',
 
@@ -66,6 +67,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social.apps.django_app.context_processors.backends',
+                'social.apps.django_app.context_processors.login_redirect',
+
             ],
         },
     },
@@ -73,6 +77,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Bookkeeper1.wsgi.application'
 
+
+AUTHENTICATION_BACKENDS = (
+    'social.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
@@ -140,3 +149,6 @@ EMAIL_HOST_PASSWORD = "NOBakchodi"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = "SparkBookeeper.com"
+
+SOCIAL_AUTH_FACEBOOK_KEY = '1328635630636109'
+SOCIAL_AUTH_FACEBOOK_SECRET = '5f3dfd9dc514a535079e1b664df53a73'
