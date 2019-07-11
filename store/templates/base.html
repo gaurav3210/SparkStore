@@ -1,82 +1,22 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-        <title>{% block title %}Home {% endblock title %}</title>
-        {% block head_favicon %}
-            <link rel="icon" type="image/png"
-                  href="{{ STATIC_URL }}">
-        {% endblock head_favicon %}
-        {% block head_meta %}
-            {% block head_meta_charset %}
-                <meta http-equiv="Content-Type"
-                      content="text/html; charset=utf-8" />
-            {% endblock head_meta_charset %}
-            {% block head_meta_contentlanguage %}
-                <meta http-equiv="Content-Language" value="en-US" />
-            {% endblock head_meta_contentlanguage %}
-            {% block head_meta_viewport %}
-                <meta name="viewport"
-                      content="width=device-width, initial-scale=1.0">
-            {% endblock head_meta_viewport %}
-        {% endblock head_meta %}
-        {% block head_css %}
-            {% block head_css_site %}
-                <link href="{{ STATIC_URL }}"
-                      rel="stylesheet" media="screen">
-                <link href="{{ STATIC_URL }}"
-                      rel="stylesheet" media="screen">
-            {% endblock head_css_site %}
-            {% block head_css_section %}{% endblock head_css_section %}
-            {% block head_css_page %}{% endblock head_css_page %}
-        {% endblock head_css %}
-
+    <title>{% block title %}Welcome to Spark Store{% endblock %}</title>
 </head>
-<body>
-{# Navigation Menu #}
-<header>
-    <div class="navbar navbar-default navbar-static-top
-        {% block nav-style %}{% endblock %}">
-        <div class="container p-none">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle"
-                        data-toggle="collapse"
-                        data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/"></a>
-            </div>
-            <div class="collapse navbar-collapse">
-                <ul class="nav navbar-nav navbar-right">
-
-                </ul>
-            </div>
-        </div>
-    </div>
-</header>
-{# The Document Body #}
-<div id="site-wrapper">
-    {% block content %}
-        if you see this, something is wrong!
-    {% endblock content %}
-</div>
-{# The Footer #}
-<div class="footer">
-    <div class="container">
-        <p></p>
-    </div>
-</div>
+<body background="{%static 'base/img/header_full.jpg' %}">
+{% block content %}
+{% if request.user.is_authenticated %}
+<h3>Welcome, {% if request.user.first_name %}
+    {{ request.user.first_name }}
+    {% else %}
+    {{ request.user.username }}
+    {% endif %}!<a href="{% url 'auth_logout' %}">Log Out</a></h3>
+{% else %}
+    <h3>Welcome User. Would you like to <a href="{% url 'auth_login' %}">log in?</a></h3>
+{% endif %}
+WELCOME TO SPARKS BOOKSTORE!!!. There are {{ count }}  books in store. User location: {{ request.session.location }}
+{% endblock %}
 </body>
-{# Set of blocks that can be used to display JavaScript files #}
-{% block footer_javascript %}
-    {% block footer_javascript_site %}
-        <script src="{{ STATIC_URL }}"></script>
-        <script src="{{ STATIC_URL }}"></script>
-        <script src="{{ STATIC_URL }}"></script>
-    {% endblock footer_javascript_site %}
-    {% block footer_javascript_section %}{% endblock footer_javascript_section %}
-    {% block footer_javascript_page %}{% endblock footer_javascript_page %}
-{% endblock footer_javascript %}
 </html>
