@@ -24,3 +24,41 @@ class Review(models.Model):
     user = models.ForeignKey(User,on_delete=None)
     publish_date = models.DateField(default=timezone.now)
     text = models.TextField()
+
+class Cart(models.Model):
+    user = models.ForeignKey(User,on_delete=None)
+    active = models.BooleanField(default=True)
+    order_date = models.DateField(null=True)
+    payment_mode = models.CharField(max_length=100,null= True)
+    payment_id = models.CharField(max_length=100,null=True)
+    def add_to_cart(self, book_id):
+        book = Book.objects.get(pk=book_id)
+        try:
+            preexist_order = BookOrder.objects.get(book=book,cart=self)
+            preexist_order.quantity+= 1
+            preexist_order.save()
+        except BookOrder.DoesNotExist:
+            new_order = BookOrder.objects.create(
+                book=book,
+                cart=self,
+                quantity=1
+            )
+            new_order.save()
+
+    def remove_from_cart(self,book_id):
+        book = Book.objects.get(pk=book_id)
+        try:
+            preexist_order = BookOrder.objects.get(book=book, cart=self)
+            if (preexist_order.quantity > 1):
+                preexist_order.quantity -= 1
+                preexist_order.save()
+            else:
+                preexist_order.delete()
+        except BookOrder.DoesNotExist:
+            pass
+
+
+class BookOrder(models.Model):
+    book = models.ForeignKey(Book,on_delete=None)
+    cart = models.ForeignKey(Cart,on_delete=None)
+    quantity = models.IntegerField()
