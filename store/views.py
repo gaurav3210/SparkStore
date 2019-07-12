@@ -1,24 +1,20 @@
 from django.shortcuts import render
-from .models import Book
+from .models import Book,Author
 # Create your views here.
-def index(request):
-    return render(request, 'index.html')
-'''
+
+
 def store(request):
-    count = Book.objects.all().count()
+    books = Book.objects.all()
+    author = Author.objects.all()
     context = {
-    'count':count,
-    #'page': 'welcome to the bookkeeper bookstore'
-}
-    return render(request,'store.html',context)
-'''
-def store(request):
-    count = Book.objects.all().count()
-    context = {
-        'count': count,
+        'books': books,
+        'author': author,
     }
-    request.session['location'] = "unknown"
-    if request.user.is_authenticated:
-        request.session['location'] = "Earth"
     return render(request, 'base.html', context)
 
+
+def book_details(request, book_id):
+    context = {
+        'book': Book.objects.get(pk=book_id),
+    }
+    return render(request, 'store/detail.html', context)
