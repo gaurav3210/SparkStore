@@ -11,6 +11,10 @@ class Author(models.Model):
         return "%s, %s" % (self.last_name, self.first_name)
 
 
+def cover_upload_path(instance, filename):
+    return '/'.join(['books', str(instance.id),filename])
+
+
 class Book(models.Model):
     title = models.CharField(max_length=200)
     author = models.ForeignKey(Author,on_delete=None)
@@ -18,6 +22,8 @@ class Book(models.Model):
     publish_date = models.DateField(default=timezone.now)
     price = models.DecimalField(decimal_places=2,max_digits=8)
     stock = models.IntegerField(default=0)
+    cover_image = models.ImageField(upload_to=cover_upload_path,default='books/empty_cover.jpg')
+
 
 class Review(models.Model):
     book = models.ForeignKey(Book,on_delete=None)
