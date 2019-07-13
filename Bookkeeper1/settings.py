@@ -150,9 +150,9 @@ LOGIN_REDIRECT_URL = '/store/'
 #Email Settings
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_HOST_USER = "gs070599@gmail.com"
-EMAIL_HOST_PASSWORD = "NOBakchodi"
+EMAIL_HOST = "smtp.mailgun.org"
+EMAIL_HOST_USER = "postmaster@sandbox5cdc28f0ed6b41bf8eb076ac33cd714c.mailgun.org"
+EMAIL_HOST_PASSWORD = "40edcf9eb26f502eef01e9aa619bf660-afab6073-ca00c129"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = "SparkBookeeper.com"

@@ -3,6 +3,10 @@ from .models import Book, Author, Cart, BookOrder,Review
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
 from django.http import JsonResponse
+from django.core.mail import EmailMultiAlternatives
+from django.template import Context
+from django.template.loader import render_to_string
+import string, random
 import paypalrestsdk
 import  stripe
 import stripe.error as se
@@ -36,6 +40,24 @@ def book_details(request, book_id):
 
                 )
                 new_review.save()
+
+                if Review.objects.filter(user=request.user).count() < 6:
+                    subject = 'Your SparkStore.com discount code is here!'
+                    from_email = 'librarian@sparkstore.com'
+                    to_email = [request.user.email]
+
+                    email_context = Context({
+                        'username': request.user.username,
+                        'code': ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6)),
+                        'discount': 10
+                    })
+                    text_email = render_to_string('email/review_email.txt',email_context)
+                    html_email = render_to_string('email/review_email.html',email_context)
+
+                    msg = EmailMultiAlternatives(subject, text_email,from_email,to_email)
+                    msg.attach_alternative(html_email,'text/html')
+                    msg.content_subtype = 'html'
+                    msg.send()
         else:
             if Review.objects.filter(user=request.user, book=context['book']).count() == 0:
                 form = ReviewForm()
