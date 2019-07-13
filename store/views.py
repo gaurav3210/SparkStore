@@ -63,6 +63,7 @@ def book_details(request, book_id):
                 form = ReviewForm()
                 context['form'] = form
     context['review'] = book.review_set.all()
+
     return render(request, 'store/detail.html', context)
 
 

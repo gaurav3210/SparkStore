@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'bootstrap3',
     'bootstrap_themes',
     'compressor',
+    'tastypie',
     'store',
     'registration',
 
@@ -159,3 +160,4 @@ DEFAULT_FROM_EMAIL = "SparkBookeeper.com"
 
 SOCIAL_AUTH_FACEBOOK_KEY = '1328635630636109'
 SOCIAL_AUTH_FACEBOOK_SECRET = '5f3dfd9dc514a535079e1b664df53a73'
+
