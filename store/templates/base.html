@@ -9,6 +9,11 @@
     {% compress css %}
     <link href="{% static 'base/css/style.css' %}" rel="stylesheet" type="text/css">
    {% endcompress %}
+    <script src = "{% static 'base/js/ajax_google.js' %}"></script>
+    <script src="{% static 'base/js/stripe_checkout.js' %}"></script>
+    {% compress js %}
+        <script src="{% static 'base/js/jquery.cookie.js' %}"></script>
+    {% endcompress %}
 {% endblock %}
 {% block bootstrap3_title %}
 {% block title %}

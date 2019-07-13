@@ -2,7 +2,10 @@ from django.shortcuts import render, redirect, reverse
 from .models import Book, Author, Cart, BookOrder
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
+from django.http import JsonResponse
 import paypalrestsdk
+import  stripe
+import stripe.error as se
 # Create your views here.
 
 def store(request):
@@ -80,8 +83,16 @@ def checkout(request,payment_mode):
         if payment_mode == 'paypal':
             redirect_url = checkout_paypal(request,cart,orders)
             return redirect(redirect_url)
+        elif payment_mode == 'stripe':
+            token = request.POST['stripeToken']
+            status = checkout_stripe(cart, orders, token)
+            if status:
+                return redirect(reverse('process_order', args=['stripe']))
+            else:
+                return redirect('order_error', context={"message": "There was a problem processing your payment."})
     else:
         return redirect('index')
+
 
 def checkout_paypal(request, cart, orders):
     if request.user.is_authenticated:
@@ -101,9 +112,9 @@ def checkout_paypal(request, cart, orders):
 
             paypalrestsdk.configure(
                 {
-                    "mode":"sandbox",
-                    "client_id":"AV_hD4FYYvqRymxne3f4OeUfXbQ658D1mcu3RJDJFERMzhK8MgTc11NiI0QOx4NlJo19ooCW374qr4za",
-                    "client_secret":"EDOSjAm8DCYwfAdNft8u5fq5GayclY1VFU7Ugn7pSUVLQozdpJ8GMM3VG8IhCYyVSG-qzOcA4gqIl0aj"
+                    "mode": "sandbox",
+                    "client_id": "AQE0HFy33FhZBlY0-9frinHRNqukKJlnAiVxcU1yZ6UclRY_AYtsfcfTRAVaSf_uUY0cdUADv6qIYcTM",
+                    "client_secret": "EEwvW3mqcoSmmZpwI6LjdBu95vqFXMN5M8LC_VU-BGAnEIIqc_xOIWTO-fD004SHCjuCwI7bBp2A6TC9"
                 })
             payment = paypalrestsdk.Payment(
                 {
@@ -140,14 +151,36 @@ def checkout_paypal(request, cart, orders):
     else:
         return redirect('index')
 
+
+def checkout_stripe(cart, orders, token):
+    stripe.api_key = "sk_test_Jav3R0tf1k60HiJeuyJsz92Y00pZNrRtOp"
+    total = 0
+    for order in orders:
+        total += (order.book.price * order.quantity)
+    status = True
+    try:
+        charge = stripe.Charge.create(
+            amount=int(total * 100),
+            currency="INR",
+            source=token,
+            metadata={'order_id': cart.get().id}
+        )
+        cart_instance = cart.get()
+        cart_instance.payment_id = charge.stripe_id
+        cart_instance.save()
+    except se.CardError:
+        status = False
+    return status
+
+
 def order_error(request):
     if request.user.is_authenticated:
-        return render(request,'store/order_error.html')
+        return render(request, 'store/order_error.html')
     else:
         return redirect('index')
 
 
-def process_order(request,payment_mode):
+def process_order(request, payment_mode):
     if request.user.is_authenticated:
         if payment_mode == 'paypal':
             payment_id = request.GET.get('paymentId')
@@ -161,6 +194,9 @@ def process_order(request,payment_mode):
 
             }
             return render(request,'store/process_order.html',context)
+        elif payment_mode == "stripe":
+            return JsonResponse({'redirect_url': reverse('complete_order', args=['stripe'])})
+
     else:
         return redirect('index')
 
@@ -168,20 +204,31 @@ def process_order(request,payment_mode):
 def complete_order(request, payment_mode):
     if request.user.is_authenticated:
         cart = Cart.objects.get(user=request.user.id, active=True)
-        if payment_mode == 'paypal':
+        if payment_mode == "paypal":
             payment = paypalrestsdk.Payment.find(cart.payment_id)
             if payment.execute({"payer_id": payment.payer.payer_info.payer_id}):
                 message = "Success! Your order has been completed, and is being processed. Payment ID: %s" %(payment.id)
                 cart.active = False
                 cart.order_date = timezone.now()
+                cart.payment_mode = "Paypal"
                 cart.save()
 
             else:
                 message = "There was a problem with the transaction. Error: %s" % (payment.error.message)
                 context = {
-                    'message':message,
+                    'message': message,
                 }
-                return render(request, 'store/order_complete.html',context)
+                return render(request, 'store/order_complete.html', context)
+        elif payment_mode == "stripe":
+            cart.active = False
+            cart.order_date = timezone.now()
+            cart.payment_mode = "Stripe"
+            cart.save()
+            message = "Success! Your order has been completed, and is being processed. Payment ID: %s" %(cart.payment_id)
+            context = {
+                'message': message,
+            }
+            return render(request, 'store/order_complete.html', context)
     else:
         return redirect('index')
 
