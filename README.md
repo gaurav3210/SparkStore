@@ -1,7 +1,7 @@
 # SparkStore
 SparkStore is a web platform to sell books, magazines and other things.
 <img src="https://github.com/gaurav3210/SparkStore/blob/master/scrnli_7_14_2019_4-04-48%20PM.png">
-<img src="https://github.com/gaurav3210/SparkStore/blob/master/scrnli_7_14_2019_4-09-45%20PM.png">
+<img src="https://github.com/gaurav3210/SparkStore/blob/master/scrnli_7_14_2019_4-13-08%20PM.png">
 <h1>Features:</h1>
 <ul>
   <li>Admin can add books/magazines/others with their image and details</li>
