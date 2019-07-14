@@ -35,5 +35,6 @@ Requirements file is attached. You can look into it.
 <ul>
   
 <li>Stock should get update after each purchase</li>
+<li>Payment Method Updation
 <li>Registeration form updation</li>
 </ul>
