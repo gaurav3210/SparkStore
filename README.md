@@ -12,7 +12,9 @@ SparkStore is a web platform to sell books, magazines and other things.
   <li>User can give reviews to the book </li>
   <li>User get discount coupon on their first 5 reviews</li>
 </ul>
-<h1>Technologies Used</h1>
+<h1>IDE Used</h1>
+<li>Pycharm</li>
+<h1>Languages And Frameworks Used</h1>
 <ul>
   <li>Django</li>
   <li>Python</li>
