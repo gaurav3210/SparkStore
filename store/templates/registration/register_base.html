@@ -1,0 +1,39 @@
+{% load i18n %}
+{% load staticfiles %}
+{% load bootstrap3 %}
+{% load bootstrap_themes %}
+{%  bootstrap_styles theme='simplex' type='min.css' %}
+{% block bootstrap3_extra_head %}
+    <link rel="stylesheet" href="{% static 'base/css/register_base.css' %}" >
+
+{% endblock %}
+{% block bootstrap3_title %}
+    {% block title %}
+        Welcome to Spark Store!
+    {% endblock %}
+{% endblock %}
+{% block body %}
+    <div id="header">
+    {% block header %}
+        <ul>
+        {% if user.is_authenticated %}
+            <li><a href="#"> {% trans "Logged in" %} {{ user.username }} </a></li>
+            <li><a href="{% url 'auth_logout' %}">{% trans "Log out" %}</a></li>
+            <li><a href="{% url 'auth_password_change' %}">{% trans "Change password" %}</a></li>
+        {% else %}
+            <li><a href="{% url 'auth_login' %}">{% trans "Log in" %}</a></li>
+        {% endif %}
+        </ul>
+    {% endblock %}
+
+    </div>
+    <br><br>
+
+
+{% endblock %}
+
+{% block footer %}
+<div id="footer">
+
+</div>
+{% endblock %}
