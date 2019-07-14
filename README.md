@@ -25,7 +25,14 @@ Sqlite
 
 <h1>Requirements</h1>
 Requirements file is attached. You can look into it.
-
+<h1>Instructions</h1>
+<ul>
+  <li>Install all things mentioned in requirments.txt file</li>
+  <li>Added admin email and password in settings.py</li>
+  <li>Run command python manage.py makemigrations</li>
+  <li>Run command python manage.py migrate</li>
+  <li>Run command pyhton manage.py runserver</li>
+  </ul>
 <h1>Contributors</h1>
 <ul>
   <li> <a href="https://github.com/gaurav3210">Gaurav Srivastava</a></li>
