@@ -24,7 +24,4 @@ Requirements file is attached. You can look into it.
 <h1>Contributors</h1>
 <ul>
   <li> <a href="https://github.com/gaurav3210">Gaurav Srivastava</a></li>
-  <li> <a href="https://github.com/avisheksanvas">Avishek Sanvas</a></li>
-  <li> <a href="https://github.com/Abhey">Abhey Rana</a></li>
-  <li> <a href="https://github.com/forceawakened">Prabhat Singh</a></li>
 </ul>
