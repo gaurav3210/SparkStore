@@ -9,7 +9,8 @@ SparkStore is a web platform to sell books, magazines and other things.
   <li>Login/Signup Facilites with email confirmation</li>
   <li>User can add/remove book in their cart</li>
   <li>User can purchase the book via paypal/stripe</li>
-  <li>User can give reviews to the book</li>
+  <li>User can give reviews to the book </li>
+  <li>User get discount coupon on their first 5 reviews</li>
 </ul>
 <h1>Technologies Used</h1>
 <ul>
