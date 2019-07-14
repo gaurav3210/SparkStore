@@ -1,6 +1,6 @@
 # SparkStore
 SparkStore is a web platform to sell books, magazines and other things.
-
+<img src="C:\Users\Lenovo\Downloads\scrnli_7_14_2019_4-04-48 PM">
 <h1>Features:</h1>
 <ul>
   <li>Admin can add books/magazines/others with their image and details</li>
