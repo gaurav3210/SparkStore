@@ -31,6 +31,6 @@ Requirements file is attached. You can look into it.
 <h1>Updation Required</h1>
 <ul>
   
-<l1>Stock should get update after each purchase</l1>
+<li>Stock should get update after each purchase</li>
 <li>Registeration form updation</li>
 </ul>
